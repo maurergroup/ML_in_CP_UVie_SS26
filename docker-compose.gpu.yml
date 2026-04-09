@@ -1,0 +1,28 @@
+# ============================================================
+# MLinCP — GPU compose override
+# ============================================================
+# Usage:
+#   docker compose -f docker-compose.yml -f docker-compose.gpu.yml up
+#   docker compose -f docker-compose.yml -f docker-compose.gpu.yml up --build
+#
+# Prerequisites on the host:
+#   - NVIDIA driver >= 525
+#   - nvidia-container-toolkit  (https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/install-guide.html)
+#   - Docker daemon configured to use the nvidia runtime
+# ============================================================
+
+services:
+  mlincp:
+    build:
+      context: .
+      dockerfile: Dockerfile.gpu
+    image: mlincp:gpu
+
+    # Expose all available GPUs to the container.
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [gpu]

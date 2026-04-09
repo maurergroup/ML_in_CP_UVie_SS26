@@ -1,0 +1,69 @@
+# ============================================================
+# MLinCP — GPU image (CUDA 12.4 + cuDNN 9)
+# ============================================================
+# Build:  docker build -f Dockerfile.gpu -t mlincp:gpu .
+# Run:    docker compose -f docker-compose.yml -f docker-compose.gpu.yml up
+# ============================================================
+# Requires: NVIDIA driver >= 525, nvidia-container-toolkit installed on host.
+# ============================================================
+
+FROM nvidia/cuda:12.4.1-cudnn-runtime-ubuntu22.04
+
+# ── System build dependencies ─────────────────────────────────
+# python3.12 comes from the deadsnakes PPA; the rest mirrors the CPU image.
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    software-properties-common \
+    && add-apt-repository ppa:deadsnakes/ppa \
+    && apt-get update && apt-get install -y --no-install-recommends \
+    python3.12 \
+    python3.12-dev \
+    python3.12-venv \
+    build-essential \
+    gfortran \
+    libopenblas-dev \
+    git \
+    curl \
+    openssh-client \
+    && rm -rf /var/lib/apt/lists/*
+
+# Make python3.12 the system default so UV picks it up automatically.
+RUN update-alternatives --install /usr/bin/python  python  /usr/bin/python3.12 1 \
+ && update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.12 1
+
+# ── Install UV ────────────────────────────────────────────────
+COPY --from=ghcr.io/astral-sh/uv:latest /uv /uvx /bin/
+
+# ── Project dependency installation ──────────────────────────
+WORKDIR /opt/mlincp
+
+# Copy the manifest and lock file.
+COPY pyproject.toml uv.lock ./
+
+# uv sync on Linux x86_64 automatically selects the pytorch-cu124 index,
+# so no second step is needed — CUDA wheels are pulled directly.
+RUN uv sync --no-dev --python python3.12
+
+# ── Make the venv the default Python ─────────────────────────
+ENV VIRTUAL_ENV="/opt/mlincp/.venv"
+ENV PATH="/opt/mlincp/.venv/bin:$PATH"
+
+# ── Register the venv as a named Jupyter kernel ───────────────
+RUN /opt/mlincp/.venv/bin/python -m ipykernel install \
+    --name mlincp-gpu \
+    --display-name "Python (MLinCP GPU)"
+
+# ── Workspace layout ──────────────────────────────────────────
+RUN mkdir -p /workspace/notebooks
+WORKDIR /workspace/notebooks
+
+# ── JupyterLab ────────────────────────────────────────────────
+EXPOSE 8888
+
+CMD ["jupyter", "lab", \
+     "--ip=0.0.0.0", \
+     "--port=8888", \
+     "--no-browser", \
+     "--allow-root", \
+     "--ServerApp.token=", \
+     "--ServerApp.password=", \
+     "--ServerApp.root_dir=/workspace/notebooks"]

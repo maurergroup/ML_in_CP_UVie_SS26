@@ -1,0 +1,37 @@
+# ============================================================
+# MLinCP — docker compose up
+# ============================================================
+# Start:  docker compose up
+# Stop:   docker compose down
+# Rebuild after dependency changes: docker compose up --build
+# ============================================================
+
+services:
+  mlincp:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: mlincp:latest
+    container_name: mlincp
+
+    ports:
+      # JupyterLab only available on localhost — not exposed to the network.
+      - "127.0.0.1:8888:8888"
+
+    volumes:
+      # Mount the whole repo into /workspace/notebooks so edits made
+      # inside Jupyter are immediately visible on the host filesystem.
+      - type: bind
+        source: .
+        target: /workspace/notebooks
+      # Mount host SSH keys so git can authenticate to GitHub over SSH.
+      - type: bind
+        source: ${HOME}/.ssh
+        target: /root/.ssh
+        read_only: true
+
+    environment:
+      - JUPYTER_ENABLE_LAB=yes
+
+    # Restart the container automatically if it crashes.
+    restart: unless-stopped

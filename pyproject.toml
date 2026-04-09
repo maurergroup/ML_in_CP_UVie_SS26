@@ -1,0 +1,82 @@
+[project]
+name = "mlincp"
+version = "0.1.0"
+description = "Machine Learning in Computational Physics — Workshop Materials"
+requires-python = ">=3.11,<3.13"
+dependencies = [
+    # ── Deep Learning ──────────────────────────────────────────
+    # CPU-only build; see [tool.uv.sources] for the index override.
+    # For GPU machines see RESOURCES.md.
+    "torch>=2.6.0,<2.7",
+    "torchvision>=0.21.0",
+    # ── Scientific Computing ───────────────────────────────────
+    "numpy>=1.26,<2.0",
+    "scipy>=1.13",
+    "pandas>=2.2",
+    "matplotlib>=3.9",
+    "seaborn>=0.13",
+    "scikit-image>=0.24",
+    "scikit-learn>=1.5",
+    "tqdm>=4.66",
+    # ── ML Descriptors ─────────────────────────────────────────
+    "dscribe>=2.1",
+    # ── Dimensionality Reduction ───────────────────────────────
+    "openTSNE>=1.0",
+    "umap-learn>=0.5",
+    # ── Cheminformatics ────────────────────────────────────────
+    "rdkit>=2024.3",
+    # ── Atomic Simulation Environment ─────────────────────────
+    "ase>=3.23",
+    # ── ML Interatomic Potentials ──────────────────────────────
+    "mace-torch>=0.3.6",
+    "janus-core>=0.7",
+    # ── Generative Models ──────────────────────────────────────
+    "chemeleon>=0.1",
+    # ── Molecular Utilities (not on PyPI — installed from GitHub)
+    "asemolec @ git+https://github.com/imagdau/aseMolec.git",
+    # ── Jupyter / Interactive Widgets ──────────────────────────
+    "jupyterlab>=4.2",
+    "ipywidgets>=8.1",
+    "nglview>=3.1",
+    "weas-widget>=0.2",
+    "ipython>=8.25",
+    "ipykernel>=7.2.0",
+    "pip>=26.0.1",
+    "tensorboard>=2.20.0",
+    "tornado>=6.5.5",
+    "setuptools>=82.0.1",
+    "juliacall>=0.9.31",
+    "dvclive>=3.49.0",
+    "tensorflow>=2.21.0",
+    "wandb>=0.25.1",
+]
+
+# ── UV configuration ───────────────────────────────────────────────────────────
+# `package = false` tells UV this is not an installable Python package;
+# `uv sync` will just install the dependencies listed above.
+[tool.uv]
+package = false
+
+# Route torch/torchvision to the appropriate wheel index per platform:
+#   - Linux x86_64  → CUDA 12.4 wheels (course server)
+#   - Other x86_64  → CPU-only wheels  (Windows/macOS laptops)
+#   - ARM (aarch64) → PyPI native MPS wheels (Apple Silicon) — no override needed
+[tool.uv.sources]
+torch = [
+    { index = "pytorch-cu124", marker = "platform_machine == 'x86_64' and sys_platform == 'linux'" },
+    { index = "pytorch-cpu",   marker = "platform_machine == 'x86_64' and sys_platform != 'linux'" },
+]
+torchvision = [
+    { index = "pytorch-cu124", marker = "platform_machine == 'x86_64' and sys_platform == 'linux'" },
+    { index = "pytorch-cpu",   marker = "platform_machine == 'x86_64' and sys_platform != 'linux'" },
+]
+
+[[tool.uv.index]]
+name = "pytorch-cpu"
+url = "https://download.pytorch.org/whl/cpu"
+explicit = true
+
+[[tool.uv.index]]
+name = "pytorch-cu124"
+url = "https://download.pytorch.org/whl/cu124"
+explicit = true

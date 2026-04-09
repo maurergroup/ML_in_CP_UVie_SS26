@@ -1,0 +1,27 @@
+# Python
+**/__pycache__
+**/*.pyc
+.venv/
+
+.vscode/
+.claude/
+
+# Jupyter
+.ipynb_checkpoints/
+**/.ipynb_checkpoints/
+
+# UV lockfile (commit this once generated locally)
+# uv.lock
+
+# Build artifacts
+_build/
+
+# Downloaded datasets (auto-fetched by notebooks, not shipped)
+data/FashionMNIST/
+
+# TensorBoard logs
+runs/
+
+# Old summerschool content — not distributed to students
+old_summerschool/
+ML_summerschool_2025/

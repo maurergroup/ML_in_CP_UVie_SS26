@@ -26,7 +26,7 @@ dependencies = [
     # ── Cheminformatics ────────────────────────────────────────
     "rdkit>=2024.3",
     # ── Atomic Simulation Environment ─────────────────────────
-    "ase>=3.23",
+    "ase<3.27",
     # ── ML Interatomic Potentials ──────────────────────────────
     "mace-torch>=0.3.6",
     "janus-core>=0.7",

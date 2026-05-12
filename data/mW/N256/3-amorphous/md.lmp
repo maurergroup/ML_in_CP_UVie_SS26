@@ -1,0 +1,68 @@
+echo both
+
+# Define simulation variables
+variable    temperature_init equal 222.0     # Initial temperature (K)
+variable    temperature_fin equal 222.0    # Final temperature (K)
+variable    tempDamp equal 0.15               # Thermostat damping (~0.1 ps)
+variable    pressure_init equal 1.0               # Initial Pressure (bar)
+variable    pressure_fin equal 1.0               # Final Pressure (bar)
+variable    pressureDamp equal 1.5           # Barostat damping
+variable    seed equal 12345                 # Random seed
+
+# Output frequencies
+variable    out_freq equal 1000
+variable    out_freq2 equal 1000
+
+# Setup
+units       metal
+atom_style  atomic
+boundary    p p p
+
+# Read system configuration
+# Assuming you have a data file with water
+#read_data   POSCAR_mW.lmp
+read_data   amorph_256.lmp
+mass 1 18.015
+
+#mW
+pair_style     sw     # type of interaction potential
+newton         on               # do not change
+pair_coeff     *  *  mW.sw mW   # reading the parameters of the potential
+
+# Neighbor settings
+neighbor    1.0 bin
+neigh_modify delay 2 every 1 check yes
+
+# Output settings
+thermo      ${out_freq}
+thermo_style custom step time temp pe ke etotal press pxx pyy pzz vol lx ly lz
+
+# Trajectory output
+dump        myDump all atom ${out_freq2} mW.lammpstrj
+dump_modify myDump sort id
+dump        myDcd all dcd ${out_freq2} mW.dcd
+
+velocity all create ${temperature_init} 4928459 dist uniform mom yes rot yes
+
+# PLUMED enhanced sampling at crystallization temperature
+fix         1 all plumed plumedfile plumed.dat outfile log.plumed
+fix         2 all npt temp ${temperature_init} ${temperature_fin} ${tempDamp} iso ${pressure_init} ${pressure_fin} ${pressureDamp}
+fix         3 all momentum 10000 linear 1 1 1 angular
+
+# Long production run with enhanced sampling
+timestep    0.005  #
+
+#restart 100000 restart.data
+
+#run         100000000  #
+run         10000000  #
+
+# Clean up
+unfix       3
+unfix       2
+unfix       1
+
+# Write final configuration
+write_data mW_final.data
+write_dump all custom topology.lammpsdump id type x y z
+write_restart mW_final.restart

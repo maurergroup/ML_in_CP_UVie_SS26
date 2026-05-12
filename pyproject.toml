@@ -49,6 +49,8 @@ dependencies = [
     "dvclive>=3.49.0",
     "tensorflow>=2.21.0",
     "wandb>=0.25.1",
+    "mdanalysis>=2.10.0",
+    "pyscal3",
 ]
 
 # ── UV configuration ───────────────────────────────────────────────────────────
@@ -70,6 +72,7 @@ torchvision = [
     { index = "pytorch-cu124", marker = "platform_machine == 'x86_64' and sys_platform == 'linux'" },
     { index = "pytorch-cpu",   marker = "platform_machine == 'x86_64' and sys_platform != 'linux'" },
 ]
+pyscal3 = { git = "https://github.com/maurergroup/pyscal3.git", rev = "density-fix" }
 
 [[tool.uv.index]]
 name = "pytorch-cpu"

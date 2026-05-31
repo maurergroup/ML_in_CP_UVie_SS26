@@ -2468,6 +2468,7 @@ dependencies = [
     { name = "scipy" },
     { name = "seaborn" },
     { name = "setuptools" },
+    { name = "tblite" },
     { name = "tensorboard" },
     { name = "tensorflow" },
     { name = "torch", version = "2.6.0", source = { registry = "https://pypi.org/simple" }, marker = "platform_machine != 'x86_64'" },
@@ -2511,6 +2512,7 @@ requires-dist = [
     { name = "scipy", specifier = ">=1.13" },
     { name = "seaborn", specifier = ">=0.13" },
     { name = "setuptools", specifier = ">=82.0.1" },
+    { name = "tblite", specifier = ">=0.6.0" },
     { name = "tensorboard", specifier = ">=2.20.0" },
     { name = "tensorflow", specifier = ">=2.21.0" },
     { name = "torch", marker = "platform_machine == 'x86_64' and sys_platform == 'linux'", specifier = ">=2.6.0,<2.7", index = "https://download.pytorch.org/whl/cu124" },
@@ -4582,6 +4584,27 @@ source = { registry = "https://pypi.org/simple" }
 sdist = { url = "https://files.pythonhosted.org/packages/46/58/8c37dea7bbf769b20d58e7ace7e5edfe65b849442b00ffcdd56be88697c6/tabulate-0.10.0.tar.gz", hash = "sha256:e2cfde8f79420f6deeffdeda9aaec3b6bc5abce947655d17ac662b126e48a60d", size = 91754, upload-time = "2026-03-04T18:55:34.402Z" }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/99/55/db07de81b5c630da5cbf5c7df646580ca26dfaefa593667fc6f2fe016d2e/tabulate-0.10.0-py3-none-any.whl", hash = "sha256:f0b0622e567335c8fabaaa659f1b33bcb6ddfe2e496071b743aa113f8774f2d3", size = 39814, upload-time = "2026-03-04T18:55:31.284Z" },
+]
+
+[[package]]
+name = "tblite"
+version = "0.6.0"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "cffi" },
+    { name = "numpy" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/b7/c2/53b25049bc3f10c91fe2f5f0ccfa711a0357c14fc57d015efa57761b4a45/tblite-0.6.0.tar.gz", hash = "sha256:339e6d233ea3b913f1485264408b2b30a1b4355cdcf1bc2a86c70bef44ca0a65", size = 3030751, upload-time = "2026-05-16T09:08:27.978Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/60/a5/89e237efdb658ac4a3aa8c5f4f2268a23f73cfa54da57fe630f96b63cd5c/tblite-0.6.0-cp311-cp311-macosx_15_0_arm64.whl", hash = "sha256:3d24133d9ff5653e69167b1c9be7fa2bca9e3c1ed532896ac654b43171db2860", size = 11707851, upload-time = "2026-05-16T09:07:10.415Z" },
+    { url = "https://files.pythonhosted.org/packages/42/96/b72b00b1b8d987757af0ce8bc669f442cedd039e8235b144521743b0933e/tblite-0.6.0-cp311-cp311-macosx_15_0_x86_64.whl", hash = "sha256:035b2757a948962882a705cfda6102fef7eec7a9540d194cebd1bc1f7b482dd5", size = 14377581, upload-time = "2026-05-16T09:07:13.147Z" },
+    { url = "https://files.pythonhosted.org/packages/ad/77/0fb5a843de0549b1b2971204dd6b135f34f2eee3c522e440de9e1e40412f/tblite-0.6.0-cp311-cp311-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl", hash = "sha256:cd88724a43c833ad81e7e145f51e1ec68e8a43ba6ae303058c80e872797d96ea", size = 6645918, upload-time = "2026-05-16T09:07:16.507Z" },
+    { url = "https://files.pythonhosted.org/packages/10/0f/d92a206b7a0575e9af224cba54c7cef152739daa2bf4be22445037092a17/tblite-0.6.0-cp312-cp312-macosx_15_0_arm64.whl", hash = "sha256:d1f0b4813f79dfc67695c8d5fe7f6561b57cb5659e102c36647df6a4f4aec68c", size = 11707831, upload-time = "2026-05-16T09:07:18.758Z" },
+    { url = "https://files.pythonhosted.org/packages/d7/c9/9a177352e9afbc596b571e1e7775c05f76c78bafb823f2ee720413320ffc/tblite-0.6.0-cp312-cp312-macosx_15_0_x86_64.whl", hash = "sha256:12643451022ab9fba221bbb379e07e989ef323be739370772700a7f811a34c77", size = 14376862, upload-time = "2026-05-16T09:07:21.39Z" },
+    { url = "https://files.pythonhosted.org/packages/37/1f/622a726a9b3d6cf1273a5dae2a9cf91f955d8d56d1adeb9e70274cc9f5f5/tblite-0.6.0-cp312-cp312-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl", hash = "sha256:6e4a46c038c2ba085f507d4dc0d0458927d9198bf5b406f7cb4473fa2206677c", size = 6645793, upload-time = "2026-05-16T09:07:24.204Z" },
+    { url = "https://files.pythonhosted.org/packages/dc/32/921bcad1c30839b86f084b0dbe2e257dcdc6547a4472290e5d5f940b7ddc/tblite-0.6.0-pp311-pypy311_pp73-macosx_15_0_arm64.whl", hash = "sha256:4dfcdde59a6080b067001ec6c9b3ae68705ffab9d5546f59fecf17544afe4d40", size = 11696024, upload-time = "2026-05-16T09:08:06.529Z" },
+    { url = "https://files.pythonhosted.org/packages/69/52/22d6276044c79a92a8b2f2f517a4a9c8e4df189636003650d7dc69efed3d/tblite-0.6.0-pp311-pypy311_pp73-macosx_15_0_x86_64.whl", hash = "sha256:3f0c61fb7f1449a6030a3f044f6437c459f9d57c5b3d50d53625dcb99fe4634c", size = 14362254, upload-time = "2026-05-16T09:08:09.052Z" },
+    { url = "https://files.pythonhosted.org/packages/f1/7e/72e026e2e4adec4790a016a72aac73677c61535d4b8021a98e17987912ec/tblite-0.6.0-pp311-pypy311_pp73-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl", hash = "sha256:8945266e8a8dc1813c6818d45553b1da59d108d597eab8d9f53d5637fd02cd6e", size = 6629925, upload-time = "2026-05-16T09:08:11.525Z" },
 ]
 
 [[package]]

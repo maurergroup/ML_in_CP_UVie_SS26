@@ -51,6 +51,7 @@ dependencies = [
     "wandb>=0.25.1",
     "mdanalysis>=2.10.0",
     "pyscal3",
+    "tblite>=0.6.0",
 ]
 
 # ── UV configuration ───────────────────────────────────────────────────────────

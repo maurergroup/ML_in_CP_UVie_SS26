@@ -52,6 +52,7 @@ dependencies = [
     "mdanalysis>=2.10.0",
     "pyscal3",
     "tblite>=0.6.0",
+    "einops>=0.8.2",
 ]
 
 # ── UV configuration ───────────────────────────────────────────────────────────
